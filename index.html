@@ -5,9 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tablero de seguimiento · ATENEA-464-2026</title>
 <meta name="description" content="Tablero de seguimiento semanal del contrato ATENEA-464-2026 entre la Agencia ATENEA y la Universidad Nacional de Colombia, Sede Manizales." />
-<meta name="color-scheme" content="light" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#020617" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-<link rel="stylesheet" href="assets/css/board.css?v=20261005_3" />
+<link rel="stylesheet" href="assets/css/board.css?v=20261005_5" />
+<script>
+  /* Resolve the theme before first paint so the page never flashes the wrong one.
+     Stored choice wins; otherwise follow the system, defaulting to Archify dark. */
+  (function () {
+    var t;
+    try { t = localStorage.getItem("atenea-board-theme"); } catch (e) { t = null; }
+    if (t !== "light" && t !== "dark") {
+      t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches
+        ? "light"
+        : "dark";
+    }
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -63,6 +78,6 @@
   </footer>
 
 </div>
-<script src="assets/js/board.js?v=20261005_3"></script>
+<script src="assets/js/board.js?v=20261005_5"></script>
 </body>
 </html>

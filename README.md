@@ -42,8 +42,8 @@ campo `status` con tres valores posibles:
 
 | Valor | Se muestra como |
 |:--|:--|
-| `"pending"` | Pendiente — barra gris |
-| `"in_progress"` | En curso — barra azul |
+| `"pending"` | Pendiente — barra slate apagada |
+| `"in_progress"` | En curso — barra cian |
 | `"done"` | Completada — barra verde con trama diagonal |
 
 Para marcar una actividad como terminada, basta cambiar su `status`:
@@ -58,6 +58,40 @@ columna de actividad y en el detalle semanal.
 
 Si cambias fechas, actividades, hitos o reuniones, **actualiza también `docs/plan.md`**. El
 plan es la fuente de verdad y el tablero debe reflejarlo, no al contrario.
+
+## Diseño
+
+El tablero sigue el lenguaje visual de [Archify](https://github.com/tt-a1i/archify) 3.0.1:
+canvas slate oscuro con retícula de puntos y dos glows de ambiente —cian arriba a la
+izquierda, violeta a la derecha—, paneles translúcidos, Georgia para la prosa y una pila
+monoespaciada encabezada por JetBrains Mono para las micro-etiquetas en versalitas con
+tracking ancho. Los tokens de `board.css` están transcritos de los bloques `:root` de la
+plantilla de Archify, no aproximados.
+
+La paleta de acentos codifica el dominio:
+
+| Acento | Uso |
+|:--|:--|
+| Cian | Códigos de componente C1–C8, contadores, actividades en curso |
+| Verde | Códigos de entregable E1–E8, reuniones, actividades completadas |
+| Violeta | Hitos y sus columnas en el cronograma |
+| Ámbar | Aviso de cronograma y el hito 1 como meta interna |
+| Slate | Actividades pendientes y elementos externos |
+
+**Tema.** Oscuro por defecto, como Archify. Un botón fijo arriba a la derecha alterna a
+claro y guarda la elección en `localStorage`. Sin elección previa se respeta
+`prefers-color-scheme`. Un script en línea en el `<head>` resuelve el tema antes del primer
+pintado, así que no hay destello del tema equivocado.
+
+**Contraste.** Los trazos de Archify están pensados para formas grandes de diagrama y a
+9–13 px quedan bajo 4.5:1. Por eso `board.css` define variantes `--*-text` de cada acento
+para el texto pequeño, mientras bordes y rellenos conservan los trazos originales. Medido
+con composición alfa real sobre toda la cadena de ancestros: **0 fallas AA en ambos temas**.
+Si tocas colores, vuelve a medir — un medidor que trate los fondos translúcidos como opacos
+produce falsos positivos en masa.
+
+No se empaqueta ninguna fuente web. JetBrains Mono se pide primero y cae a la pila
+monoespaciada del sistema, así que la página mantiene cero dependencias de red.
 
 ## Desarrollo local
 

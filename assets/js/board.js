@@ -639,9 +639,46 @@ function renderProvenance(root) {
   );
 }
 
+/* --------------------------------------------------------------------- theme */
+
+const THEME_KEY = "atenea-board-theme";
+
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") || "dark";
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const btn = document.querySelector(".theme-toggle");
+  if (!btn) return;
+  const next = theme === "dark" ? "claro" : "oscuro";
+  btn.textContent = theme === "dark" ? "◐ Tema claro" : "◑ Tema oscuro";
+  btn.setAttribute("aria-label", "Cambiar a tema " + next);
+}
+
+function renderThemeToggle() {
+  const btn = el("button", {
+    class: "theme-toggle",
+    type: "button",
+    "aria-live": "polite",
+  });
+  btn.addEventListener("click", () => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch (e) {
+      /* Private browsing blocks storage; the toggle still works for this visit. */
+    }
+  });
+  document.body.appendChild(btn);
+  applyTheme(currentTheme());
+}
+
 function main() {
   const root = document.getElementById("board");
   if (!root) return;
+  renderThemeToggle();
   renderHeader(root);
   renderScheduleWarning(root);
   renderSummary(root);
